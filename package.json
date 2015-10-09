@@ -2,4 +2,8 @@
   "version": "0.0.0",
   "name": "di-project",
   "license": "MIT",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "http-server -a 0.0.0.0 -p 8000",  	
+  }
 }
