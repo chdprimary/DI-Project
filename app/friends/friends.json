@@ -1,0 +1,90 @@
+[
+	{
+		"name": "Angi Corbell",
+		"age": 40, 
+		"hairColor": "red", 
+		"occupation": "Office Worker", 
+		"latitude": 45.543162, 
+		"longitude": -122.643539
+	},
+	{
+		"name": "Sean Semple",
+		"age": 20,
+		"hairColor": "brown",
+		"occupation": "Cyber Engineer",
+		"latitude": 45.521036, 
+		"longitude": -122.609893
+	},
+	{
+		"name": "TJ Spence",
+		"age": 25,
+		"hairColor": "brown",
+		"occupation": "Electrical Engineer",
+		"latitude": 45.504676,
+		"longitude": -122.600280
+	},
+	{
+		"name": "Hannah Brennan",
+		"age": 20,
+		"hairColor": "blonde",
+		"occupation": "Pizza Delivery",
+		"latitude": 45.547490, 
+		"longitude": -122.579337
+	},
+	{
+		"name": "Madison Riggs",
+		"age": 20,
+		"hairColor": "red",
+		"occupation": "Student",
+		"latitude": 45.566481, 
+		"longitude": -122.674781
+	},
+	{
+		"name": "Charles Dean",
+		"age": 40,
+		"hairColor": "bald",
+		"occupation": "Postal Worker",
+		"latitude": 45.590511, 
+		"longitude": -122.718726 
+	},
+	{
+		"name": "Monica Castle",
+		"age": 25,
+		"hairColor": "black",
+		"occupation": "Student",
+		"latitude": 45.528252, 
+		"longitude": -122.681991
+	},
+	{
+		"name": "Ben Markway",
+		"age": 20,
+		"hairColor": "brown",
+		"occupation": "Casino Dealer",
+		"latitude": 45.586427, 
+		"longitude": -122.686454
+	},
+	{
+		"name": "Thomas Dixon",
+		"age": 20,
+		"hairColor": "brown",
+		"occupation": "Student",
+		"latitude": 45.481813, 
+		"longitude": -122.592040 
+	},
+	{
+		"name": "Liz Marie Lee",
+		"age": 20,
+		"hairColor": "brown",
+		"occupation": "Student",
+		"latitude": 45.548451, 
+		"longitude": -122.727653
+	},
+	{
+		"name": "Peter Suh",
+		"age": 25,
+		"hairColor": "black",
+		"occupation": "QA Tester",
+		"latitude": 45.504435, 
+		"longitude": -122.538139
+	}
+]

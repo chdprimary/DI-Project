@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="di-project-app">
+<head>
+	<meta charset="UTF-8">
+	<title>Leaflet-Angular DI Project</title>
+	<!-- (1) Angular -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	<!-- (2) Angular Module -->
+	<script type="text/javascript" src="js/diProject.js"></script>
+	<!-- (3) Leaflet -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+	<!-- (4) Esri Leaflet -->
+	<script src="http://cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>	
+	<!-- (5) Own CSS -->
+	<link rel="stylesheet" type="text/css" href="css/diProject.css">
+	<!-- (6) jQuery (need it for selecting parent elements based on child elements) -->
+	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	<!-- (7) Bootstrap -->
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body ng-controller="di-project-controller">
+	<div id="top-group">
+		<div id="map-panel" class="leaflet-bar">
+			Basemap Type:
+			<select name="basemaps" id="basemapsSelect">
+				<option value="Streets">Streets</option>
+				<option value="Topographic">Topographic</option>
+				<option value="NationalGeographic">National Geographic</option>
+				<option value="Oceans">Oceans</option>
+				<option value="Gray">Gray</option>
+				<option value="DarkGray">Dark Gray</option>
+				<option value="Imagery">Imagery</option>
+				<option value="ShadedRelief">Shaded Relief</option>
+			</select>
+		</div>
+		<div id="map"></div>
+	</div>
+
+	<div id="bottom-group">
+		<div class="table-container">
+			<input type="text" class="table-filter" placeholder="FILTER: e.g. 'Engineer'" ng-model="searchQuery">
+			<table id="friends-table" class="table-bordered">
+				<thead>
+					<td ng-repeat="header in tableHeaders">{{header}}</td>
+				</thead>
+				<tbody>
+					<tr 
+					ng-repeat="friend in friends | filter:searchQuery" 
+					ng-class="{blonde: isBlonde(friend), redhead: isRedhead(friend), brunette: isBrunette(friend), blackHaired: isBlackHaired(friend), bald: isBald(friend)}">
+						<td><input type="checkbox" class="enable-polyline-checkbox"></td>
+						<td ng-repeat="field in friend">{{field}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+		// Leaflet script, placed in HTML file for quick, easy reading.
+		// Would otherwise wrap in own file.
+		'use strict';
+		var map;
+		var basemap;
+		var basemapsSelect;
+		var neighborhoods;
+		var polyline;
+
+		/**
+		 * Removes current basemap/label layers, adds basemap/label layers according to 'newBasemap'.
+		 * @param  {string} newBasemap - string denoting new basemap type
+		 */
+		function basemapChange(newBasemap) {
+			// Remove old basemap and label layers
+			if (basemap) {
+				if (basemap !== 'Streets' && newBasemap !== 'Topographic' && newBasemap !== 'NationalGeographic') {
+					map.removeLayer(basemap + 'Labels');
+				}
+				map.removeLayer(basemap);
+			}
+			// Add new basemap and label layers
+			basemap = L.esri.basemapLayer(newBasemap).addTo(map);
+			if (newBasemap !== 'Streets' && newBasemap !== 'Topographic' && newBasemap !== 'NationalGeographic') {
+				L.esri.basemapLayer(newBasemap + 'Labels').addTo(map);
+			}
+		}
+
+		/**
+		 * Removes current polyline, constructs new polyline according to lats/lngs in the enabled table rows.
+		 */
+		function redrawPolyline() {
+			var lats;
+			var lngs;
+			var coordArr;
+			var i;
+
+			// Remove current polyline layer.
+			if (polyline) {
+				map.removeLayer(polyline);
+			}
+			// For enabled rows, gather <td> elements (which contain lats/lngs).
+			// Populate 'coordArr' with lat/lng float values from <td> elements.
+			lats = $('#friends-table input.enable-polyline-checkbox:checked').parent().siblings(':nth-last-child(2)');
+			lngs = $('#friends-table input.enable-polyline-checkbox:checked').parent().siblings(':last-child');
+			coordArr = [];
+			for (i = 0; i < lats.length; i++) {
+				coordArr.push([parseFloat(lats[i].textContent), parseFloat(lngs[i].textContent)]);
+			}
+			// Add styled polyline defined by 'coordArr'.
+			polyline = L.polyline(coordArr, {
+				color: 'blue', 
+				weight: 3
+			}).addTo(map);
+		}
+
+		// Set up map location and basemap layer.
+		map = L.map('map').setView([45.5400, -122.6283], 12);
+		basemap = L.esri.basemapLayer('Streets').addTo(map);
+
+		// Bind an onchange listener to 'basemapSelect' dropdown element.
+		basemapsSelect = document.getElementById('basemapsSelect');
+		basemapsSelect.addEventListener('change', function() {
+			basemapChange(basemapsSelect.value);
+		});
+
+		// Add neighborhood infomation to map (just for the sake of it; not used anywhere yet).
+		neighborhoods = L.esri.featureLayer({
+			url: 'https://services.arcgis.com/rOo16HdIMeOBI4Mb/arcgis/rest/services/Neighborhoods_pdx/FeatureServer/0',
+			style: {
+				color: '#666464',
+				weight: 1
+			}
+		}).addTo(map);
+
+		// Get 'friends' JSON array which contains lat/lng coordinates & other info.
+		// Then, for each friend, place a marker with a bound popup.
+		L.esri.get('friends/friends.json', {}, function(error, response) {
+			if (error) {
+				console.log(error);
+			} else {
+				response.forEach(function (curr,idx,arr) {
+					L.marker([curr['latitude'], curr['longitude']]).bindPopup('<label>' + curr['name'] + '</label>').addTo(map);
+				});
+			}
+		});
+
+		// Event delegation - table checks for onchange events bubbling up from any checkboxes below.
+		// Could have used jQuery's .on() here, decided to instead demonstrate plain JS listener binding.
+		var friendsTable = document.getElementById('friends-table');
+		friendsTable.addEventListener('change', function(event) {
+			if (event.target.tagName === 'INPUT') {
+				event.target.classList.forEach(function(curr,idx,arr) {
+					if (curr === 'enable-polyline-checkbox') {
+						redrawPolyline();
+					}
+				});
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+/*
+	=====================
+	CSS Reset
+	=====================
+ */
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*
+	=======================
+	MY CSS
+	=======================
+ */
+
+*,
+*:before,
+*:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/*
+	TOP GROUP
+ */
+
+#map {
+	height: 600px;
+	border-bottom: 1px solid gray;
+}
+
+#map-panel {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	padding: 5px;
+	background: white;
+	z-index: 2;
+}
+
+/*
+	BOTTOM GROUP
+ */
+
+#bottom-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.table-filter {
+	text-align: center;
+}
+
+.table-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 5px;
+	width:50%;
+}
+
+#friends-table {
+	width: 100%;
+}
+
+#friends-table thead {
+	padding: 0.2em;
+	text-align: center;
+	font-weight: bold;
+}
+
+#friends-table tbody tr td {
+	text-align: center;	
+}
+
+#friends-table tbody tr td:not(:first-child) {
+	padding: 0.25em;
+}
+
+#friends-table tbody td input[type='checkbox'] {
+	width: 15px;
+	height: 15px;
+}
+
+/*
+	NG-CLASS CLASSES
+ */
+
+.blonde {background-color: #FFBB47; color: black;}
+.redhead {background-color: #FF5944; color: white;}
+.brunette {background-color: #9C7D6A; color: white;}
+.blackHaired {background-color: #4A3D44; color: white;}
+.bald {background-color: #FFEBE5; color: black;}
+
+/*
+	=============
+	Whitespace Tracker
+	=============
+ */
+
+/** {
+  background: #000 !important;
+  color: #0f0 !important;
+  outline: solid #f00 1px !important;
+}
